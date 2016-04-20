@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body>
+Hello from HTML?
+<script>
+var intervals = [];
+function measure() {
+  var n1 = window.performance.now();
+  bridge.doNothing();
+  var n2 = window.performance.now();
+  return n2 - n1;
+}
+
+function report() {
+     var total = 0;
+     for (var i = 0; i < intervals.length; i++) {
+       total += intervals[i];
+     }
+
+     var avg = total/intervals.length;
+     bridge.reportResult("Avg:" + avg);
+}
+
+function measureUntilFullAsync() {
+  if (intervals.length < 100) {
+    intervals.push(measure());
+    window.setTimeout(measureUntilFullAsync, 0);
+  } else {
+    report();
+  }
+};
+
+function measureUntilFullSync() {
+  while (intervals.length < 100) {
+    intervals.push(measure());
+  }
+
+   report();
+};
+
+window.onload = function() {
+  var startDelay = 500;
+  window.setTimeout(measureUntilFullAsync, startDelay);
+  //window.setTimeout(measureUntilFullSync, startDelay);
+}
+</script>
+</body>
+</html>
