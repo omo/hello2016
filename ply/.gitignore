@@ -9,3 +9,4 @@ env/[Ss]cripts
 env/pyvenv.cfg
 env/.venv
 env/pip-selfcheck.json
+parsetab.py
